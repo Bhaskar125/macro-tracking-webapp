@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Target, BarChart3, Smartphone, Clock, Apple, TrendingUp, CheckCircle, Star, Menu } from "lucide-react"
@@ -30,10 +29,14 @@ export default function LandingPage() {
           </Link>
         </nav>
         <div className="ml-4 flex items-center gap-2">
-          <Button variant="ghost" size="sm">
-            Sign In
-          </Button>
-          <Button size="sm">Get Started</Button>
+          <Link href="/auth/signin">
+            <Button variant="ghost" size="sm">
+              Sign In
+            </Button>
+          </Link>
+          <Link href="/auth/signup">
+            <Button size="sm">Get Started</Button>
+          </Link>
         </div>
         <Button variant="ghost" size="sm" className="ml-2 md:hidden">
           <Menu className="h-5 w-5" />
@@ -59,9 +62,11 @@ export default function LandingPage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="text-lg px-8">
-                    Start Free Trial
-                  </Button>
+                  <Link href="/auth/signup">
+                    <Button size="lg" className="text-lg px-8">
+                      Start Free Trial
+                    </Button>
+                  </Link>
                   <Button variant="outline" size="lg" className="text-lg px-8">
                     Watch Demo
                   </Button>
@@ -80,7 +85,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-center">
                 <div className="relative">
                   <Image
-                    src="/placeholder.svg?height=600&width=400"
+                    src="/images/app-screenshot.png"
                     width={400}
                     height={600}
                     alt="MacroTrack App Screenshot"
@@ -204,7 +209,7 @@ export default function LandingPage() {
               </div>
               <div className="flex items-center justify-center">
                 <Image
-                  src="/placeholder.svg?height=400&width=600"
+                  src="/images/dashboard-screenshot.png"
                   width={600}
                   height={400}
                   alt="MacroTrack Dashboard"
@@ -304,16 +309,13 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex gap-2">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="flex-1 bg-primary-foreground text-primary"
-                  />
-                  <Button type="submit" variant="secondary">
-                    Start Free Trial
-                  </Button>
-                </form>
+                <div className="flex gap-2">
+                  <Link href="/auth/signup" className="flex-1">
+                    <Button className="w-full">
+                      Start Free Trial
+                    </Button>
+                  </Link>
+                </div>
                 <p className="text-xs text-primary-foreground/60">14-day free trial. No credit card required.</p>
               </div>
             </div>
