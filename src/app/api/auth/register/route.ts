@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { registerUser } from "@/lib/auth"
+import { createUser } from "@/lib/user-service"
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,11 +20,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Register the user
-    const user = registerUser(email, password, name)
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address" },
+        { status: 400 }
+      )
+    }
+
+    // Create the user
+    const user = await createUser({ name, email, password })
 
     return NextResponse.json(
-      { message: "User registered successfully", user },
+      { 
+        message: "User registered successfully", 
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          createdAt: user.createdAt
+        }
+      },
       { status: 201 }
     )
   } catch (error) {

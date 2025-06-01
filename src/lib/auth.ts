@@ -1,13 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-
-// In-memory user storage (replace with database in production)
-const users: Array<{
-  id: string
-  email: string
-  password: string
-  name: string
-}> = []
+import { verifyUserCredentials } from "./user-service"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -22,16 +15,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null
         }
 
-        const user = users.find(
-          user => user.email === credentials.email && user.password === credentials.password
-        )
+        try {
+          const user = await verifyUserCredentials(
+            credentials.email as string,
+            credentials.password as string
+          )
 
-        if (user) {
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
+          if (user) {
+            return {
+              id: user.id.toString(),
+              email: user.email,
+              name: user.name,
+            }
           }
+        } catch (error) {
+          console.error("Auth error:", error)
         }
 
         return null
@@ -55,29 +53,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session
     },
   },
-})
-
-// Helper function to register new users
-export function registerUser(email: string, password: string, name: string) {
-  // Check if user already exists
-  const existingUser = users.find(user => user.email === email)
-  if (existingUser) {
-    throw new Error("User already exists")
-  }
-
-  // Create new user
-  const newUser = {
-    id: Date.now().toString(),
-    email,
-    password, // In production, hash the password
-    name,
-  }
-
-  users.push(newUser)
-  return { id: newUser.id, email: newUser.email, name: newUser.name }
-}
-
-// Helper function to get all users (for debugging)
-export function getUsers() {
-  return users.map(user => ({ id: user.id, email: user.email, name: user.name }))
-} 
+}) 
