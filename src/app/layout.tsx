@@ -16,6 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MacroTrack - Master Your Macros, Transform Your Body",
   description: "The most intuitive macro tracking app that helps you reach your fitness goals.",
+  icons: {
+    icon: [
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      }
+    ],
+    apple: {
+      url: '/favicon.svg',
+      type: 'image/svg+xml',
+    },
+  },
 };
 
 export default function RootLayout({
